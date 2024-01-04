@@ -1,17 +1,7 @@
-#ifndef MHF
-#define MHF
-
-/*Libraries that the functions uses*/
-#include <stdlib.h>
+#ifndef MONTY_H
+#define MONTY_H
 #include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <ctype.h>
-#include <stdarg.h>
-#include <errno.h>
-#include <stdbool.h>
-
-/*---------------------------------------------------------------------------*/
+#include <stdlib.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -28,30 +18,6 @@ typedef struct stack_s
         struct stack_s *prev;
         struct stack_s *next;
 } stack_t;
-
-/*---------------------------------------------------------------------------*/
-
-/**
- * struct monty_s - global struct to hold all the things
- * @file: monty file
- * @line: line we are interpreting
- * @stack: the stack we are building
- * @line_number: current line number read
- * @is_queue: flag for stack/ queue
- *
- * Description: this is our single global and holds everything we need.
- */
-typedef struct monty_s
-{
-	FILE *file;
-	char *line;
-	stack_t *stack;
-	unsigned int line_number;
-	bool is_queue;
-} monty_t;
-
-/*---------------------------------------------------------------------------*/
-
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
@@ -59,7 +25,6 @@ typedef struct monty_s
  *
  * Description: opcode and its function
  * for stack, queues, LIFO, FIFO
- *
  */
 typedef struct instruction_s
 {
@@ -67,20 +32,36 @@ typedef struct instruction_s
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/*---------------------------------------------------------------------------*/ 
+/**
+ * stuct commands - commands that use the structure.
+ * @line_number: The line number where the command appears in the script.
+ * @passed_arguments: Amount of arguments passed for the string.
+ * @mode: The mode of command.
+ * Desctiption: opcode and its function
+ * for stack, queues, LIFO, FIFO.
+*/
+typedef struct commands
+{
+    int mode;
+    unsigned int line_number;
+    char *passed_arguments[2];
+    struct commands *next;
+} cmnds;
 
-monty_t monty;
+extern cmnds *cb;
 
-void pop(stack_t **stack, __attribute__((unused))unsigned int linenumber);
-void swap(stack_t **stack, __attribute__((unused))unsigned int linenumber);
-void nop(stack_t **stack, __attribute__((unused))unsigned int linenumber);
-void pall(stack_t **stack, __attribute__((unused))unsigned int linenumber);
-void push(char *argument);
-void init_montyStruct(void);
-int main(int argc, char **argv);
-void op_choose(stack_t **stack, char *opcode);
-void read_line(void);
-void open_up(int argc, char *filename);
+cmnds *add_node(cmnds **cb, char *c, int b);
 
+int search_hsh(char **r);
+void searop(stack_t **stack);
+void free_all(stack_t **stack);
+
+void push(stack_t **stack, unsigned int line_number);
+void pall(stack_t **stack, unsigned int line_number);
+void pint(stack_t **stack, unsigned int line_number);
+void pop(stack_t **stack, unsigned int line_number);
+void swap(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
+void nop(stack_t **stack, unsigned int line_number);
 
 #endif
