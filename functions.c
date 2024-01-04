@@ -35,36 +35,44 @@ cmnds *add_node(cmnds **cb, char *c, int b)
     char *str;
 
     new = malloc(sizeof(cmnds));
-    if(!new){
+    if(!new)
+    {
         return (NULL);
     }
     new->passed_arguments[0] = strdup(strtok(c, " \t"));
-    if (!(new->passed_arguments[0])){
+    if (!(new->passed_arguments[0]))
+    {
         free(new);
         return (NULL);
     }
-    str = strtok(NULL " \t");
-    if(str){
+    str = strtok(NULL, " \t");
+    if(str)
+    {
         new->passed_arguments[1] = strdup(str);
-        if(!(new->passed_arguments[1])){
+        if(!(new->passed_arguments[1]))
+        {
             free(new->passed_arguments[1]);
             free(new);
             return (NULL);
         }
 
     }
-    else {
+    else
+    {
         new->passed_arguments[1] = NULL;
         new->line_number = b;
         new->next = NULL;
         new->mode = 0;
-        if(!(*cb)){
+    }
+
+        if(!(*cb))
+        {
             *cb = new;
             return (new);   
         }
         for (; temp->next; temp = temp->next)
+
             continue;
         temp->next = new;
         return (new);
-    }
 }

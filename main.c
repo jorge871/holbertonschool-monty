@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 	for (; cb; free(temp2->passed_arguments[1]), free(temp2->passed_arguments[0]), free(temp2))
 	{
 		temp2 = cb;
-		searop(&stk);
+		select_options(&stk);
 		cb = cb->next;
 	}
 	free_all(&stk);

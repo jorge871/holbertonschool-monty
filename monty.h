@@ -2,6 +2,8 @@
 #define MONTY_H
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -53,7 +55,7 @@ extern cmnds *cb;
 cmnds *add_node(cmnds **cb, char *c, int b);
 
 int search_hsh(char **r);
-void searop(stack_t **stack);
+void select_options(stack_t **stack);
 void free_all(stack_t **stack);
 
 void push(stack_t **stack, unsigned int line_number);
