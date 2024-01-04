@@ -69,6 +69,8 @@ typedef struct instruction_s
 
 /*---------------------------------------------------------------------------*/ 
 
+monty_t monty;
+
 void pop(stack_t **stack, __attribute__((unused))unsigned int linenumber);
 void swap(stack_t **stack, __attribute__((unused))unsigned int linenumber);
 void nop(stack_t **stack, __attribute__((unused))unsigned int linenumber);
