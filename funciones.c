@@ -1,69 +1,108 @@
 #include "monty.h"
-
 /**
- * push - Pushes an element onto the stack.
- * @stack: A pointer to the top of the stack.
- * @line_number: The current line number in the Monty file.
+ * push - add node to list
+ * @argument: int
  */
-void push(stack_t **stack, unsigned int line_number)
+void push(char *argument)
 {
-    char *arg;
-    int value;
+	int data;
+	stack_t *new;
 
-    if (!stack || !line)
-    {
-        fprintf(stderr, "L%u: usage: push integer\n", line_number);
-        exit(EXIT_FAILURE);
-    }
+	if (!check_input(argument))
+	{
+		dprintf(STDERR_FILENO, "L%u: usage: push integer\n"
+				, monty.line_number);
+		free_it_all();
+		exit(EXIT_FAILURE);
+	}
+	data = atoi(argument);
+	new = malloc(sizeof(stack_t));
+	if (!new)
+	{
+		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		free_it_all();
+		exit(EXIT_FAILURE);
+	}
+	new->n = data;
+	new->next = monty.stack;
+	new->prev = NULL;
+	if (new->next)
+		new->next->prev = new;
+	monty.stack = new;
+}
+/**
+ * pall - print all members
+ * @stack: double list
+ * @linenumber: line
+ */
+void pall(stack_t **stack, __attribute__((unused))unsigned int linenumber)
+{
+	stack_t *a = *stack;
 
-    arg = strtok(NULL, " \n");
-    if (!arg || !is_integer(arg))
-    {
-        fprintf(stderr, "L%u: usage: push integer\n", line_number);
-        exit(EXIT_FAILURE);
-    }
+	if (!*stack)
+	{
+		return;
+	}
+	while (a)
+	{
+		printf("%d\n", a->n);
+		a = a->next;
+	}
+}
+/**
+ * pop - delete node from top of list
+ * @stack: double list
+ * @linenumber: line
+ */
+void pop(stack_t **stack, __attribute__((unused))unsigned int linenumber)
+{
+	stack_t *freeable = *stack;
 
-    value = atoi(arg);
-    push_stack(stack, value);
+	if (*stack)
+	{
+		*stack = (*stack)->next;
+		if (*stack)
+			(*stack)->prev = NULL;
+		free(freeable);
+	}
+	else
+	{
+		dprintf(STDERR_FILENO, "L%u: can't pop an empty stack\n"
+				, monty.line_number);
+		free_it_all();
+		exit(EXIT_FAILURE);
+	}
+}
+/**
+ * swap - swap place of top two members in stack
+ * @stack: double list
+ * @linenumber: line
+ */
+void swap(stack_t **stack, __attribute__((unused))unsigned int linenumber)
+{
+	int tmp;
+
+	if (*stack && (*stack)->next)
+	{
+		tmp = (*stack)->n;
+		(*stack)->n = (*stack)->next->n;
+		(*stack)->next->n = tmp;
+	}
+	else
+	{
+		dprintf(STDERR_FILENO, "L%d: can't swap, stack too short\n",
+				monty.line_number);
+		free_it_all();
+		exit(EXIT_FAILURE);
+	}
 }
 
 /**
- * pall - Prints all the values on the stack.
- * @stack: A pointer to the top of the stack.
- * @line_number: The current line number in the Monty file.
+ * nop - does nothng
+ * @stack: double list
+ * @linenumber: line
  */
-void pall(stack_t **stack, unsigned int line_number)
+void nop(stack_t **stack, __attribute__((unused))unsigned int linenumber)
 {
-    stack_t *current = *stack;
-
-    (void)line_number;
-
-    while (current)
-    {
-        printf("%d\n", current->n);
-        current = current->next;
-    }
-}
-
-/**
- * is_integer - Checks if a string represents an integer.
- * @str: The string to check.
- * Return: 1 if the string is an integer, 0 otherwise.
- */
-int is_integer(char *str)
-{
-    if (!str)
-        return 0;
-
-    if (*str == '-' || *str == '+')
-        str++;
-
-    while (*str)
-    {
-        if (!isdigit(*str))
-            return 0;
-        str++;
-    }
-
-    return 1;
+	(void)stack;
 }
