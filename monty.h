@@ -76,5 +76,11 @@ void swap(stack_t **stack, __attribute__((unused))unsigned int linenumber);
 void nop(stack_t **stack, __attribute__((unused))unsigned int linenumber);
 void pall(stack_t **stack, __attribute__((unused))unsigned int linenumber);
 void push(char *argument);
+void init_montyStruct(void);
+int main(int argc, char **argv);
+void op_choose(stack_t **stack, char *opcode);
+void read_line(void);
+void open_up(int argc, char *filename);
+
 
 #endif
