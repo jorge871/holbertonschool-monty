@@ -20,7 +20,7 @@ void free_all(stack_t **stack)
 
 /**
  * select_options - This is the function for execute the options.
- * @stack: 
+ * @stack:Stack is address of the linked lists.
 */
 
 void select_options(stack_t **stack)
