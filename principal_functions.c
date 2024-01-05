@@ -6,29 +6,70 @@
  * @stack: Stack is address of the linked lists.
  * @line_number: This is the number of line.
 */
-void push(stack_t **stack, unsigned int line_number)
-{
-    char *arg;
-    int value;
-    char *line = NULL;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-    if (!stack || !line)
+
+typedef struct stack_node
+{
+    int data;
+    struct stack_node *next;
+} stack_node_t;
+
+
+void push_stack(stack_node_t **stack, int value);
+
+int is_integer(const char *str)
+{
+    if (!str)
+        return 0;
+
+    if (*str == '-' || *str == '+')
+        str++;
+
+    while (*str)
     {
-        fprintf(stderr, "L%u: usage: push integer\n", line_number);
-        exit(EXIT_FAILURE);
+        if (!isdigit(*str))
+            return 0;
+        str++;
     }
 
-    arg = strtok(NULL, " \n");
+    return 1;
+}
+
+void push(stack_node_t **stack, unsigned int line_number)
+{
+    char *arg = strtok(NULL, " \n");
+
     if (!arg || !is_integer(arg))
     {
         fprintf(stderr, "L%u: usage: push integer\n", line_number);
         exit(EXIT_FAILURE);
     }
 
-    value = atoi(arg);
-    push_stack(stack, value);
+    int value = atoi(arg);
 
+    push_stack(stack, value);
 }
+
+void push_stack(stack_node_t **stack, int value)
+{
+
+    stack_node_t *new_node = malloc(sizeof(stack_node_t));
+    if (new_node == NULL)
+    {
+        fprintf(stderr, "Error: malloc failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+
+    new_node->data = value;
+    new_node->next = *stack;
+
+    *stack = new_node;
+}
+
 
 /**
  * pall - This function prints all values in ascending order.
