@@ -32,7 +32,7 @@ typedef struct stack_s
 typedef struct instruction_s
 {
         char *opcode;
-        void (*f)stack_t **stack, unsigned int line_number);
+        void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
 /**
@@ -60,6 +60,7 @@ int search_hsh(char **r);
 void select_options(stack_t **stack);
 void free_all(stack_t **stack);
 int is_integer(char *str);
+void my_push(stack_t **stack, unsigned int line_number);
 
 
 void push(stack_t **stack, unsigned int line_number);
