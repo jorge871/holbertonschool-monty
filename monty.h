@@ -19,7 +19,7 @@ typedef struct stack_s
         int n;
         struct stack_s *prev;
         struct stack_s *next;
-} stack_t;
+} monty_stack_t;
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
@@ -57,6 +57,8 @@ cmnds *add_node(cmnds **cb, char *c, int b);
 int search_hsh(char **r);
 void select_options(stack_t **stack);
 void free_all(stack_t **stack);
+int is_integer(char *str);
+void push_stack(stack_t **stack, int value);
 
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);

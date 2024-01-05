@@ -10,7 +10,7 @@ int search_hsh(char **r)
 {
     int v;
 
-    for (; (*r)[v] && ((*r)[v] == ' ' || (*r)[v] == '\t'); v++)
+    for (v = 0; (*r)[v] && ((*r)[v] == ' ' || (*r)[v] == '\t'); v++)
 		;
 	if ((*r)[v] == '#')
 		return (1);
