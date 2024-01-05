@@ -4,9 +4,9 @@
  * free_all - This is a function that free the nodes.
  * @stack: Stack is address of the linked lists.
 */
-void free_all(custom_stack_t **stack)
+void free_all(stack_t **stack)
 {
-    custom_stack_t *temporal = NULL;
+    stack_t *temporal = NULL;
     cmnds *temporal2;
     for (; *stack; *stack = (*stack)->next, free(temporal))
         temporal = *stack;
@@ -20,10 +20,10 @@ void free_all(custom_stack_t **stack)
 
 /**
  * select_options - This is the function for execute the options.
- * @stack:Stack is address of the linked lists.
+ * @stack: 
 */
 
-void select_options(custom_stack_t **stack)
+void select_options(stack_t **stack)
 {
     int s = 0;
     instruction_t options[] = 
@@ -41,7 +41,7 @@ void select_options(custom_stack_t **stack)
     {
         if(!strcmp(options[s].opcode, cb->passed_arguments[0]))
         {
-            (options[s].f)(stack, cb->line_number);
+            (*options[s].f)(stack, cb->line_number);
             break;
         }
         s++;
@@ -53,5 +53,5 @@ void select_options(custom_stack_t **stack)
         free_all(stack);
         exit(EXIT_FAILURE);
     }
-    
+
 }

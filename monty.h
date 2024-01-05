@@ -14,12 +14,12 @@
  * Description: doubly linked list node structure
  * for stack, queues, LIFO, FIFO
  */
-typedef struct custom_stack_s
+typedef struct stack_s
 {
         int n;
-        struct custom_stack_s *prev;
-        struct custom_stack_s *next;
-} custom_stack_t;
+        struct stack_s *prev;
+        struct stack_s *next;
+} stack_t;
 
 /**
  * struct instruction_s - opcode and its function
@@ -32,7 +32,7 @@ typedef struct custom_stack_s
 typedef struct instruction_s
 {
         char *opcode;
-        void (*f)(custom_stack_t **stack, unsigned int line_number);
+        void (*f)stack_t **stack, unsigned int line_number);
 } instruction_t;
 
 /**
@@ -57,17 +57,17 @@ cmnds *add_node(cmnds **cb, char *c, int b);
 
 
 int search_hsh(char **r);
-void select_options(custom_stack_t **stack);
-void free_all(custom_stack_t **stack);
+void select_options(stack_t **stack);
+void free_all(stack_t **stack);
 int is_integer(char *str);
-void push_stack(custom_stack_t **stack, int value);
 
-void push(custom_stack_t **stack, unsigned int line_number);
-void pall(custom_stack_t **stack, unsigned int line_number);
-void pint(custom_stack_t **stack, unsigned int line_number);
-void pop(custom_stack_t **stack, unsigned int line_number);
-void swap(custom_stack_t **stack, unsigned int line_number);
-void add(custom_stack_t **stack, unsigned int line_number);
-void nop(custom_stack_t **stack, unsigned int line_number);
+
+void push(stack_t **stack, unsigned int line_number);
+void pall(stack_t **stack, unsigned int line_number);
+void pint(stack_t **stack, unsigned int line_number);
+void pop(stack_t **stack, unsigned int line_number);
+void swap(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
+void nop(stack_t **stack, unsigned int line_number);
 
 #endif
