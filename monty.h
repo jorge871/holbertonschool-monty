@@ -54,6 +54,7 @@ extern cmnds *cb;
 
 cmnds *add_node(cmnds **cb, char *c, int b);
 
+
 int search_hsh(char **r);
 void select_options(stack_t **stack);
 void free_all(stack_t **stack);
