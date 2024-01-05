@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 	char *s = NULL;
 	size_t n, i;
 	int r;
-	stack_t *stk = NULL;
+	custom_stack_t *stk = NULL;
 	cmnds *temp2, *cb = NULL;
 	if (argc != 2)
 	{

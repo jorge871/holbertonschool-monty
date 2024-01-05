@@ -4,9 +4,9 @@
  * @stack: Stack is address of the linked lists.
  * @line_number: This is the number of line.
 */
-void pint(stack_t **stack, unsigned int line_number)
+void pint(custom_stack_t **stack, unsigned int line_number)
 {
-    stack_t *temp = *stack;
+    custom_stack_t *temp = *stack;
 
     if (!temp)
     {
@@ -23,9 +23,9 @@ void pint(stack_t **stack, unsigned int line_number)
  * @stack: Stack is address of the linked lists.
  * @line_number: This is the number of line.
 */
-void swap(stack_t **stack, unsigned int line_number)
+void swap(custom_stack_t **stack, unsigned int line_number)
 {
-    stack_t *temp = *stack;
+    custom_stack_t *temp = *stack;
 	size_t r = 1;
 
 	for (; temp && temp->next; temp = temp->next, r++)
@@ -56,7 +56,7 @@ void swap(stack_t **stack, unsigned int line_number)
  * @stack: Stack is address of the linked lists.
  * @line_number: This is the number of line.
 */
-void nop(stack_t **stack, unsigned int line_number)
+void nop(custom_stack_t **stack, unsigned int line_number)
 {
     (void)stack;
     (void)line_number;
@@ -66,9 +66,9 @@ void nop(stack_t **stack, unsigned int line_number)
  * @stack: Stack is address of the linked lists.
  * @line_number: This is the number of line.
 */
-void add(stack_t **stack, unsigned int line_number)
+void add(custom_stack_t **stack, unsigned int line_number)
 {
-    stack_t *temp = *stack;
+    custom_stack_t *temp = *stack;
 	size_t r = 1;
 
 	for (; temp && temp->next; temp = temp->next, r++)
