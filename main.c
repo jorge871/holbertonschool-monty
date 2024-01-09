@@ -1,67 +1,126 @@
 #include "monty.h"
 
 /**
- * checking_blank - checks for blank spaces
- * @s: source string
- * Return: 0 if successful, 1 otherwise
+ * open_up - open a monty and validate input
+ * @argc: args count
+ * @filename: path to monty
  */
-int checking_blank(char *s)
+void open_up(int argc, char *filename)
 {
-	size_t i = 0;
-
-	for (; s[i] && (s[i] == ' ' || s[i] == '\t'); i++)
-		;
-	if (s[i] == '\0')
-		return (0);
-	return (1);
-}
-/**
- * main - entry point, evaluates path name.
- * @argc: number of arguments.
- * @argv: array of arguments.
- * Return: EXIT_SUCCESS, EXIT_FAILURE.
- */
-int main(int argc, char **argv)
-{
-	FILE *f;
-	char *s = NULL;
-	size_t n, i;
-	int r;
-	stack_t *stk = NULL;
-	cmnds *temp2, *cb = NULL;
-
 	if (argc != 2)
 	{
 		dprintf(STDERR_FILENO, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	f = fopen(argv[1], "r");
-	if (!f)
+	monty.file = fopen(filename, "r");
+	if (!monty.file)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv[1]);
+		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", filename);
 		exit(EXIT_FAILURE);
 	}
-	for (i = 1; (r = getline(&s, &n, f)) != EOF; i++)
+}
+
+/**
+ * read_line - reads and executes each line of input from monty file
+ */
+void read_line(void)
+{
+	size_t len = 0;
+	ssize_t read;
+	char *opcode, *data;
+
+	while ((read = getline(&monty.line, &len, monty.file)) != -1)
 	{
-		s[r - 1] = '\0';
-		if (!checking_blank(s) || search_hsh(&s) || !(*s))
-			continue;
-		if (!add_node(&cb, s, i))
+		opcode = strtok(monty.line, " \t\n$");
+		if (*opcode == '#' || *opcode == '\n')
 		{
-			dprintf(STDERR_FILENO, "Error: malloc failed\n");
-			free_all(&stk);
-			exit(EXIT_FAILURE);
+			monty.line_number++;
+			continue;
+		}
+		else if (strcmp(opcode, "push") == 0)
+		{
+			data = strtok(NULL, " \n\t");
+			if (monty.is_queue)
+			{
+				push_queue(data);
+			}
+			else
+				push(data);
+		}
+		else
+			op_choose(&monty.stack, opcode);
+		monty.line_number++;
+	}
+}
+
+/**
+ * op_choose - find & call the function that corresponds with the opcode
+ * @stack: **pointer to stack
+ * @opcode: opcode from this line of our monty file
+ */
+void op_choose(stack_t **stack, char *opcode)
+{
+	int i;
+	char *op;
+	instruction_t fncs[] = {
+		{"pall", pall},
+		{"pint", pint},
+		{"pop", pop},
+		{"swap", swap},
+		{"add", add},
+		{"nop", nop},
+		{NULL, NULL}
+	};
+
+	op = strtok(opcode, "\n");
+	for (i = 0; fncs[i].opcode; i++)
+	{
+		if (strcmp(op, fncs[i].opcode) == 0)
+		{
+			fncs[i].f(stack, monty.line_number);
+			return;
 		}
 	}
-	free(s), fclose(f);
-	for (; cb; free(temp2->passed_arguments[1])
-	, free(temp2->passed_arguments[0]), free(temp2))
+	if (strcmp(opcode, "push"))
 	{
-		temp2 = cb;
-		select_options(&stk);
-		cb = cb->next;
+		dprintf(STDERR_FILENO, "L%u: ", monty.line_number);
+		dprintf(STDERR_FILENO, "unknown instruction %s\n", opcode);
 	}
-	free_all(&stk);
+	else
+		dprintf(STDERR_FILENO, "L%u: usage: push integer\n"
+				, monty.line_number);
+	exit(EXIT_FAILURE);
+}
+
+/**
+ * main- entry point
+ * @argc: args count
+ * @argv: args vector
+ *
+ * Return: EXIT_SUCCESS
+ */
+int main(int argc, char **argv)
+{
+
+	init_montyStruct();
+	open_up(argc, argv[1]);
+	read_line();
+	free_it_all();
 	return (EXIT_SUCCESS);
 }
 
+/**
+ *  init_montyStruct - initialise the struct
+ *
+ *
+ *
+ */
+void init_montyStruct(void)
+{
+
+	monty.file = NULL;
+	monty.line = NULL;
+	monty.stack = NULL;
+	monty.line_number = 1;
+	monty.is_queue = false;
+}
