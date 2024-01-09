@@ -6,14 +6,11 @@
 void free_all(stack_t **stack)
 {
 	stack_t *temporal = *stack, *next;
-
-	if (*stack != NULL)
+	while (temporal)
 	{
-		while (temporal != NULL)
-		{
-			next = temporal->next;
-			free(temporal);
-			temporal = next;
-		}
+		next = temporal->next;
+		free(temporal);
+		temporal = next;
 	}
+	*stack = NULL;
 }
