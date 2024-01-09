@@ -56,6 +56,7 @@ typedef struct commands
 extern cmnds *cb;
 
 cmnds *add_node(cmnds **cb, char *c, int b);
+
 /*------------------ Auxiliars Functions ------------------*/
 int search_hsh(char **r);
 void select_options(stack_t **stack);

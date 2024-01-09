@@ -13,7 +13,7 @@ int checking_blank(char *s)
 		;
 	if (s[i] == '\0')
 		return (0);
-		return (1);
+	return (1);
 }
 /**
  * main - entry point, evaluates path name.
