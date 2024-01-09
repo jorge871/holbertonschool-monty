@@ -1,5 +1,5 @@
 #include "monty.h"
-cmnds *cb = NULL;
+
 /**
  * checking_blank - checks for blank spaces
  * @s: source string
@@ -8,11 +8,12 @@ cmnds *cb = NULL;
 int checking_blank(char *s)
 {
 	size_t i = 0;
+
 	for (; s[i] && (s[i] == ' ' || s[i] == '\t'); i++)
 		;
 	if (s[i] == '\0')
 		return (0);
-	return (1);
+		return (1);
 }
 /**
  * main - entry point, evaluates path name.
@@ -28,6 +29,7 @@ int main(int argc, char **argv)
 	int r;
 	stack_t *stk = NULL;
 	cmnds *temp2, *cb = NULL;
+
 	if (argc != 2)
 	{
 		dprintf(STDERR_FILENO, "USAGE: monty file\n");
@@ -52,7 +54,8 @@ int main(int argc, char **argv)
 		}
 	}
 	free(s), fclose(f);
-	for (; cb; free(temp2->passed_arguments[1]), free(temp2->passed_arguments[0]), free(temp2))
+	for (; cb; free(temp2->passed_arguments[1])
+	, free(temp2->passed_arguments[0]), free(temp2))
 	{
 		temp2 = cb;
 		select_options(&stk);

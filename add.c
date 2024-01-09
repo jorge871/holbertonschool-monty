@@ -6,7 +6,7 @@
 */
 void add(stack_t **stack, unsigned int line_number)
 {
-    stack_t *temp = *stack;
+	stack_t *temp = *stack;
 	size_t r = 1;
 
 	for (; temp && temp->next; temp = temp->next, r++)

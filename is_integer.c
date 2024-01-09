@@ -1,7 +1,7 @@
 #include "monty.h"
 /**
- * is_int - checks if s could be converted to an decimal int
- * @s: sourcer string
+ * is_integer - checks if s could be converted to an decimal int
+ * @str: sourcer string
  * Return: 0 on success, otherwise 1
  */
 int is_integer(char *str)
