@@ -1,0 +1,22 @@
+#include "monty.h"
+/**
+ * add - This function is use for adds the top two elements of the stack.
+ * @stack: Stack is address of the linked lists.
+ * @line_number: This is the number of line.
+*/
+void add(stack_t **stack, unsigned int line_number)
+{
+    stack_t *temp = *stack;
+	size_t r = 1;
+
+	for (; temp && temp->next; temp = temp->next, r++)
+		;
+	if (r < 2)
+	{
+		dprintf(STDERR_FILENO, "L%d: can't add, stack too short\n", line_number);
+		free_all(stack);
+		exit(EXIT_FAILURE);
+	}
+	temp->prev->n += temp->n;
+	pop(stack, line_number);
+}

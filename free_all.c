@@ -1,31 +1,19 @@
 #include "monty.h"
 
 /**
- *free_it_all - frees all
- *
- *Return: Void
- */
-void free_it_all(void)
+ * free_all - This is a function that free the nodes.
+ * @stack: Stack is address of the linked lists.
+*/
+void free_all(stack_t **stack)
 {
-	fclose(monty.file);
-	free(monty.line);
-	free_build(monty.stack);
-}
-/**
- * free_build - frees the stack
- * @h: the head of stack
- *
- *
- */
-void free_build(stack_t *h)
-{
-	stack_t *temp;
-	stack_t *location = h;
-
-	while (location)
-	{
-		temp = location;
-		location = location->next;
-		free(temp);
-	}
+    stack_t *temporal = NULL;
+    cmnds *temporal2;
+    for (; *stack; *stack = (*stack)->next, free(temporal))
+        temporal = *stack;
+    for (; cb; cb = cb->next, free(temporal2))
+    {
+        temporal2 = cb;
+        free (cb->passed_arguments[1]);
+        free (cb->passed_arguments[0]);
+    }
 }

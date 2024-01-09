@@ -1,0 +1,37 @@
+#include "monty.h"
+/**
+ * select_options - This is the function for execute the options.
+ * @stack: Stack is address of the linked lists.
+*/
+
+void select_options(stack_t **stack)
+{
+    int s = 0;
+    instruction_t options[] = 
+    {
+        {"push", push},
+        {"pall", pall},
+        {"pint", pint},
+        {"pop", pop},
+        {"swap", swap},
+        {"add", add},
+        {"nop", nop},
+        {NULL, NULL}
+    };
+    while (options[s].opcode)
+    {
+        if(!strcmp(options[s].opcode, cb->passed_arguments[0]))
+        {
+            (*options[s].f)(stack, cb->line_number);
+            break;
+        }
+        s++;
+    }
+    if(!options[s].opcode)
+    {
+        dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n",
+        cb->line_number, cb->passed_arguments[0]);
+        free_all(stack);
+        exit(EXIT_FAILURE);
+    }
+}
